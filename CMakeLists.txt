@@ -95,10 +95,15 @@ set(ARCH_FLAGS "-mf16c" "-mavx" "-mfma")
 set_build_arch_flags("${ARCH_FLAGS}")
 # Specify Horovod exports
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -undefined dynamic_lookup -Wl,-exported_symbols_list,${CMAKE_SOURCE_DIR}/horovod.exp")
+    set(EXPORTED_SYMBOLS_CONTENT
+        "*horovod*"
+        "*PyInit*"
+        "*initmpi_lib_v2*"
+    )
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -undefined dynamic_lookup -Wl,-exported_symbols_list,${EXPORTED_SYMBOLS_CONTENT}")
     set(CMAKE_MACOSX_RPATH TRUE)
 else()
-    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--version-script=${CMAKE_SOURCE_DIR}/horovod.lds -Wl,-Bsymbolic-functions -Wl,-z,relro,-z,now")
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--version-script=${CMAKE_SOURCE_DIR}/khorovod.lds -Wl,-Bsymbolic-functions -Wl,-z,relro,-z,now")
 endif()
 # GPU Operations
 set(HOROVOD_GPU $ENV{HOROVOD_GPU})
