@@ -193,7 +193,7 @@ def main():
                '          python -m pip install --upgrade pip\n' \
                '          python -m pip install setuptools wheel\n' \
                '          python setup.py sdist\n' \
-               '          pip -v install dist/horovod-*.tar.gz\n' \
+               '          pip -v install dist/khorovod-*.tar.gz\n' \
                '\n' + \
                '\n'.join(jobs)
 
