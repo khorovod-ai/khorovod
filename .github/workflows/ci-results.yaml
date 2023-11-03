@@ -90,14 +90,14 @@ jobs:
           --data "{
             \"state\": \"pending\",
             \"context\": \"${GITHUB_WORKFLOW} / Build and Test GPU (on Builtkite)\",
-            \"target_url\": \"https://github.com/horovod/horovod/actions/runs/${GITHUB_RUN_ID}\"
+            \"target_url\": \"https://github.com/khorovod-ai/khorovod/actions/runs/${GITHUB_RUN_ID}\"
           }"
 
       - name: Trigger Buildkite Pipeline
         id: build
         uses: EnricoMi/trigger-pipeline-action@master
         env:
-          PIPELINE: "horovod/horovod"
+          PIPELINE: "khorovod-ai/khorovod"
           COMMIT: "${{ fromJSON( needs.ci-workflow.outputs.pr-json ).merge_sha }}"
           BRANCH: "${{ github.event.workflow_run.head_repository.owner.login }}:${{ github.event.workflow_run.head_branch }} (GPU NON HEADS)"
           MESSAGE: "${{ github.event.workflow_run.head_commit.message }}"
@@ -152,7 +152,7 @@ jobs:
           --data "{
             \"state\": \"${{ job.status }}\",
             \"context\": \"${GITHUB_WORKFLOW} / Build and Test GPU (on Builtkite)\",
-            \"target_url\": \"https://github.com/horovod/horovod/actions/runs/${GITHUB_RUN_ID}\"
+            \"target_url\": \"https://github.com/khorovod-ai/khorovod/actions/runs/${GITHUB_RUN_ID}\"
           }"
 
   buildkite-heads-trigger:
@@ -180,14 +180,14 @@ jobs:
           --data "{
             \"state\": \"pending\",
             \"context\": \"${GITHUB_WORKFLOW} / Build and Test GPU heads (on Builtkite)\",
-            \"target_url\": \"https://github.com/horovod/horovod/actions/runs/${GITHUB_RUN_ID}\"
+            \"target_url\": \"https://github.com/khorovod-ai/khorovod/actions/runs/${GITHUB_RUN_ID}\"
           }"
 
       - name: Trigger Buildkite Pipeline
         id: build
         uses: EnricoMi/trigger-pipeline-action@master
         env:
-          PIPELINE: "horovod/horovod"
+          PIPELINE: "khorovod-ai/khorovod"
           COMMIT: "${{ fromJSON( needs.ci-workflow.outputs.pr-json ).merge_sha }}"
           BRANCH: "${{ github.event.workflow_run.head_repository.owner.login }}:${{ github.event.workflow_run.head_branch }} (GPU HEADS)"
           MESSAGE: "${{ github.event.workflow_run.head_commit.message }}"
@@ -242,7 +242,7 @@ jobs:
           --data "{
             \"state\": \"${{ job.status }}\",
             \"context\": \"${GITHUB_WORKFLOW} / Build and Test GPU heads (on Builtkite)\",
-            \"target_url\": \"https://github.com/horovod/horovod/actions/runs/${GITHUB_RUN_ID}\"
+            \"target_url\": \"https://github.com/khorovod-ai/khorovod/actions/runs/${GITHUB_RUN_ID}\"
           }"
 
   publish-test-results:

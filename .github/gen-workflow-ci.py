@@ -30,9 +30,9 @@ def main():
     script = path.joinpath('..', '.buildkite', 'gen-pipeline.sh').absolute()
     env = dict(
         PIPELINE_MODE='FULL',
-        BUILDKITE_PIPELINE_SLUG='horovod',
-        BUILDKITE_PIPELINE_DEFAULT_BRANCH='master',
-        BUILDKITE_BRANCH='master'
+        BUILDKITE_PIPELINE_SLUG='khorovod',
+        BUILDKITE_PIPELINE_DEFAULT_BRANCH='develop',
+        BUILDKITE_BRANCH='develop'
     )
     proc = subprocess.run([script], env=env, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, encoding='utf-8')
     if proc.returncode:
@@ -127,13 +127,13 @@ def main():
                 f'    # run a build on master (this does not publish test results or cancel concurrent builds)\n'
                 f'    - cron: \'0 10 * * *\' # everyday at 10am\n'
                 f'  push:\n'
-                f'    # only consider push to master, hotfix-branches, and tags\n'
+                f'    # only consider push to main, develop, hotfix-branches, and tags\n'
                 f'    # otherwise modify job.config.outputs.push\n'
-                f'    branches: [ \'master\', \'hotfix-*\' ]\n'
+                f'    branches: [ \'main\', \'develop\', \'hotfix-*\' ]\n'
                 f'    tags: [ \'v*.*.*\' ]\n'
                 f'  pull_request:\n'
-                f'    # only consider pull requests into master\n'
-                f'    branches: [ master ]\n'
+                f'    # only consider pull requests into develop\n'
+                f'    branches: [ develop ]\n'
                 f'  workflow_dispatch:\n'
                 f'\n'
                  'permissions: {}\n'
@@ -141,10 +141,10 @@ def main():
                 f'concurrency:\n'
                 f'  # This controls which concurrent builds to cancel:\n'
                 f'  # - we do not want any concurrent builds on a branch (pull_request)\n'
-                f'  # - we do not want concurrent builds on the same commit on master (push)\n'
+                f'  # - we do not want concurrent builds on the same commit on main (push)\n'
                 f'  # - we do not want concurrent builds on the same commit on a tag (push)\n'
-                f'  # - we allow concurrent runs on the same commit on master and its tag (push)\n'
-                f'  # - we allow concurrent runs on the same commit on master (push) and a scheduled build (schedule)\n'
+                f'  # - we allow concurrent runs on the same commit on main and its tag (push)\n'
+                f'  # - we allow concurrent runs on the same commit on main (push) and a scheduled build (schedule)\n'
                 f'  #\n'
                 f'  # A pull_request event only runs on branch commit, a push event only on master and tag commit.\n'
                 f'  # A schedule event only runs on master HEAD commit.\n'
@@ -202,7 +202,7 @@ def main():
                 f'    name: "Init Workflow"\n'
                 f'    runs-on: ubuntu-latest\n'
                 f'    outputs:\n'
-                f"      run-at-all: ${{{{ github.event_name != 'schedule' || github.repository == 'horovod/horovod' }}}}\n"
+                f"      run-at-all: ${{{{ github.event_name != 'schedule' || github.repository == 'khorovod-ai/khorovod' }}}}\n"
                 f"      # if we don't get a clear 'false', we fall back to building and testing\n"
                 f"      run-builds-and-tests: ${{{{ steps.tests.outputs.needed != 'false' }}}}\n"
                 f'      buildkite-branch-label: "${{{{ steps.config-buildkite.outputs.branch-label }}}}"\n'
@@ -223,7 +223,7 @@ def main():
                 f'          python .github/gen-workflow-ci.py\n'
                 f'          if [[ $(git diff .github/workflows/ci.yaml | wc -l) -gt 0 ]]\n'
                 f'          then\n'
-                f'            echo "::error::Workflow file .github/workflows/ci.yaml is out-dated, please run .github/gen-workflow-ci.py and commit changes"\n'
+                f'            echo "::error::Workflow file .github/workflows/ci.yaml is outdated, please run .github/gen-workflow-ci.py and commit changes"\n'
                 f'            exit 1\n'
                 f'          fi\n'
                 f'        shell: bash\n'
@@ -271,7 +271,7 @@ def main():
                 f'          if [[ "${{{{ github.event_name }}}}" == "pull_request" ]]\n'
                 f'          then\n'
                 f'            head_sha="${{{{ github.event.pull_request.head.sha }}}}"\n'
-                f'            message="$(gh api https://api.github.com/repos/horovod/horovod/commits/${{head_sha}} -q .commit.message | head -n1)"\n'
+                f'            message="$(gh api https://api.github.com/repos/khorovod-ai/khorovod/commits/${{head_sha}} -q .commit.message | head -n1)"\n'
                 f'            echo "message=${{message}}" >> $GITHUB_OUTPUT\n'
                 f'          fi\n'
                 f'\n'
@@ -520,7 +520,7 @@ def main():
                 f'    needs: [{", ".join(needs)}]\n'
                 f'    runs-on: ubuntu-latest\n'
                 f'    if: >\n'
-                f'      github.repository == \'horovod/horovod\' &&\n'
+                f'      github.repository == \'khorovod-ai/khorovod\' &&\n'
                 f"      needs.init-workflow.outputs.run-at-all == 'true' &&\n"
                 f"      needs.init-workflow.outputs.run-builds-and-tests == 'true' &&\n"
                 f'      ( github.event_name != \'pull_request\' || github.event.pull_request.head.repo.full_name == github.repository )\n'
@@ -532,7 +532,7 @@ def main():
                 f'        id: build\n'
                 f'        uses: buildkite/trigger-pipeline-action@v1.3.1\n'
                 f'        env:\n'
-                f'          PIPELINE: "horovod/horovod"\n'
+                f'          PIPELINE: "khorovod-ai/khorovod"\n'
                 f'          # COMMIT is taken from GITHUB_SHA\n'
                 f'          BRANCH: "${{{{ needs.init-workflow.outputs.buildkite-branch-label }}}} ({mode})"\n'
                 f'          # empty MESSAGE will be filled by Buildkite from commit message\n'
@@ -599,9 +599,9 @@ def main():
                 f'        id: config\n'
                 f'        env:\n'
                 f'          # run workflow for all events on Horovod repo and non-schedule events on forks\n'
-                f'          run: ${{{{ github.repository == \'horovod/horovod\' || github.event_name != \'schedule\' }}}}\n'
+                f'          run: ${{{{ github.repository == \'khorovod-ai/khorovod\' || github.event_name != \'schedule\' }}}}\n'
                 f'          # push images only from Horovod repo and for schedule and push events\n'
-                f'          push: ${{{{ github.repository == \'horovod/horovod\' && contains(\'schedule,push\', github.event_name) }}}}\n'
+                f'          push: ${{{{ github.repository == \'khorovod-ai/khorovod\' && contains(\'schedule,push\', github.event_name) }}}}\n'
                 f'        run: |\n'
                 f'          echo Repository: ${{{{ github.repository }}}}\n'
                 f'          echo Event: ${{{{ github.event_name }}}}\n'

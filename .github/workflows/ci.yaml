@@ -7,13 +7,13 @@ on:
     # run a build on master (this does not publish test results or cancel concurrent builds)
     - cron: '0 10 * * *' # everyday at 10am
   push:
-    # only consider push to master, hotfix-branches, and tags
+    # only consider push to main, develop, hotfix-branches, and tags
     # otherwise modify job.config.outputs.push
-    branches: [ 'master', 'hotfix-*' ]
+    branches: [ 'main', 'develop', 'hotfix-*' ]
     tags: [ 'v*.*.*' ]
   pull_request:
-    # only consider pull requests into master
-    branches: [ master ]
+    # only consider pull requests into develop
+    branches: [ develop ]
   workflow_dispatch:
 
 permissions: {}
@@ -21,10 +21,10 @@ permissions: {}
 concurrency:
   # This controls which concurrent builds to cancel:
   # - we do not want any concurrent builds on a branch (pull_request)
-  # - we do not want concurrent builds on the same commit on master (push)
+  # - we do not want concurrent builds on the same commit on main (push)
   # - we do not want concurrent builds on the same commit on a tag (push)
-  # - we allow concurrent runs on the same commit on master and its tag (push)
-  # - we allow concurrent runs on the same commit on master (push) and a scheduled build (schedule)
+  # - we allow concurrent runs on the same commit on main and its tag (push)
+  # - we allow concurrent runs on the same commit on main (push) and a scheduled build (schedule)
   #
   # A pull_request event only runs on branch commit, a push event only on master and tag commit.
   # A schedule event only runs on master HEAD commit.
@@ -77,7 +77,7 @@ jobs:
     name: "Init Workflow"
     runs-on: ubuntu-latest
     outputs:
-      run-at-all: ${{ github.event_name != 'schedule' || github.repository == 'horovod/horovod' }}
+      run-at-all: ${{ github.event_name != 'schedule' || github.repository == 'khorovod-ai/khorovod' }}
       # if we don't get a clear 'false', we fall back to building and testing
       run-builds-and-tests: ${{ steps.tests.outputs.needed != 'false' }}
       buildkite-branch-label: "${{ steps.config-buildkite.outputs.branch-label }}"
@@ -98,7 +98,7 @@ jobs:
           python .github/gen-workflow-ci.py
           if [[ $(git diff .github/workflows/ci.yaml | wc -l) -gt 0 ]]
           then
-            echo "::error::Workflow file .github/workflows/ci.yaml is out-dated, please run .github/gen-workflow-ci.py and commit changes"
+            echo "::error::Workflow file .github/workflows/ci.yaml is outdated, please run .github/gen-workflow-ci.py and commit changes"
             exit 1
           fi
         shell: bash
@@ -146,7 +146,7 @@ jobs:
           if [[ "${{ github.event_name }}" == "pull_request" ]]
           then
             head_sha="${{ github.event.pull_request.head.sha }}"
-            message="$(gh api https://api.github.com/repos/horovod/horovod/commits/${head_sha} -q .commit.message | head -n1)"
+            message="$(gh api https://api.github.com/repos/khorovod-ai/khorovod/commits/${head_sha} -q .commit.message | head -n1)"
             echo "message=${message}" >> $GITHUB_OUTPUT
           fi
 
@@ -4573,7 +4573,7 @@ jobs:
     needs: [init-workflow, build-and-test]
     runs-on: ubuntu-latest
     if: >
-      github.repository == 'horovod/horovod' &&
+      github.repository == 'khorovod-ai/khorovod' &&
       needs.init-workflow.outputs.run-at-all == 'true' &&
       needs.init-workflow.outputs.run-builds-and-tests == 'true' &&
       ( github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository )
@@ -4585,7 +4585,7 @@ jobs:
         id: build
         uses: buildkite/trigger-pipeline-action@v1.3.1
         env:
-          PIPELINE: "horovod/horovod"
+          PIPELINE: "khorovod-ai/khorovod"
           # COMMIT is taken from GITHUB_SHA
           BRANCH: "${{ needs.init-workflow.outputs.buildkite-branch-label }} (GPU NON HEADS)"
           # empty MESSAGE will be filled by Buildkite from commit message
@@ -4630,7 +4630,7 @@ jobs:
     needs: [init-workflow, build-and-test]
     runs-on: ubuntu-latest
     if: >
-      github.repository == 'horovod/horovod' &&
+      github.repository == 'khorovod-ai/khorovod' &&
       needs.init-workflow.outputs.run-at-all == 'true' &&
       needs.init-workflow.outputs.run-builds-and-tests == 'true' &&
       ( github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository )
@@ -4642,7 +4642,7 @@ jobs:
         id: build
         uses: buildkite/trigger-pipeline-action@v1.3.1
         env:
-          PIPELINE: "horovod/horovod"
+          PIPELINE: "khorovod-ai/khorovod"
           # COMMIT is taken from GITHUB_SHA
           BRANCH: "${{ needs.init-workflow.outputs.buildkite-branch-label }} (GPU HEADS)"
           # empty MESSAGE will be filled by Buildkite from commit message
@@ -4704,9 +4704,9 @@ jobs:
         id: config
         env:
           # run workflow for all events on Horovod repo and non-schedule events on forks
-          run: ${{ github.repository == 'horovod/horovod' || github.event_name != 'schedule' }}
+          run: ${{ github.repository == 'khorovod-ai/khorovod' || github.event_name != 'schedule' }}
           # push images only from Horovod repo and for schedule and push events
-          push: ${{ github.repository == 'horovod/horovod' && contains('schedule,push', github.event_name) }}
+          push: ${{ github.repository == 'khorovod-ai/khorovod' && contains('schedule,push', github.event_name) }}
         run: |
           echo Repository: ${{ github.repository }}
           echo Event: ${{ github.event_name }}

@@ -14,7 +14,7 @@ Clone the repository locally:
 
 .. code-block:: bash
 
-    $ git clone --recursive https://github.com/horovod/horovod.git
+    $ git clone --recursive https://github.com/khorovod-ai/khorovod.git
 
 Develop within a virtual environment to avoid dependency issues:
 
@@ -24,14 +24,14 @@ Develop within a virtual environment to avoid dependency issues:
     $ . env/bin/activate
 
 We recommend installing package versions that match with those under test in
-`Buildkite <https://github.com/horovod/horovod/blob/master/.buildkite/gen-pipeline.sh>`__.
+`Buildkite <https://github.com/khorovod-ai/khorovod/blob/master/.buildkite/gen-pipeline.sh>`__.
 The following versions are recommended (see default versions defined through :code:`ARG` in
-`Dockerfile.test.cpu <https://github.com/horovod/horovod/blob/master/Dockerfile.test.cpu>`__ and
-`Dockerfile.test.gpu <https://github.com/horovod/horovod/blob/master/Dockerfile.test.gpu>`__ file.
+`Dockerfile.test.cpu <https://github.com/khorovod-ai/khorovod/blob/master/Dockerfile.test.cpu>`__ and
+`Dockerfile.test.gpu <https://github.com/khorovod-ai/khorovod/blob/master/Dockerfile.test.gpu>`__ file.
 
 You can find all other non-Python packages that need to be installed on your system for Horovod to build
-in the `Dockerfile.test.cpu <https://github.com/horovod/horovod/blob/master/Dockerfile.test.cpu>`__ and
-`Dockerfile.test.gpu <https://github.com/horovod/horovod/blob/master/Dockerfile.test.gpu>`__ files.
+in the `Dockerfile.test.cpu <https://github.com/khorovod-ai/khorovod/blob/master/Dockerfile.test.cpu>`__ and
+`Dockerfile.test.gpu <https://github.com/khorovod-ai/khorovod/blob/master/Dockerfile.test.gpu>`__ files.
 Specifically, see all :code:`RUN apt-get install` lines.
 
 Build and Install
@@ -50,9 +50,9 @@ Set ``HOROVOD_WITH_[FRAMEWORK]=1`` to generate an error if the Horovod plugin fo
 
 Set ``HOROVOD_DEBUG=1`` for a debug build with checked assertions, disabled compiler optimizations etc.
 
-Other environmental variables can be found in the `install documentation <https://github.com/horovod/horovod/blob/master/docs/install.rst#environment-variables>`__.
+Other environmental variables can be found in the `install documentation <https://github.com/khorovod-ai/khorovod/blob/master/docs/install.rst#environment-variables>`__.
 
-You can install optional dependencies defined in `setup.py <https://github.com/horovod/horovod/blob/master/setup.py>`__ by adding brackets
+You can install optional dependencies defined in `setup.py <https://github.com/khorovod-ai/khorovod/blob/master/setup.py>`__ by adding brackets
 at the end of the command line e.g. ``[test]`` for test dependencies.
 If you have not installed specific DL frameworks yet, add ``[dev]`` to install the CPU version of all supported DL frameworks.
 
@@ -95,18 +95,18 @@ cases, if there are fewer than four GPUs installed.
 Continuous Integration
 ----------------------
 
-Horovod uses `Buildkite <https://buildkite.com/horovod/horovod>`__ for continuous integration in AWS running on both
+Horovod uses `Buildkite <https://buildkite.com/khorovod-ai/khorovod>`__ for continuous integration in AWS running on both
 Intel CPU hardware and NVIDIA GPUs (with NCCL).  Tests are run once per night on master automatically, and on each
 commit to a remote branch.
 
 Buildkite test configurations are defined in
-`docker-compose.test.yml <https://github.com/horovod/horovod/blob/master/docker-compose.test.yml>`__.  Each test
+`docker-compose.test.yml <https://github.com/khorovod-ai/khorovod/blob/master/docker-compose.test.yml>`__.  Each test
 configuration defines a Docker image that is built from either
-`Docker.test.cpu <https://github.com/horovod/horovod/blob/master/Dockerfile.test.cpu>`__ (for CPU tests) or
-`Docker.test.gpu <https://github.com/horovod/horovod/blob/master/Dockerfile.test.gpu>`__ (for GPU tests).
+`Docker.test.cpu <https://github.com/khorovod-ai/khorovod/blob/master/Dockerfile.test.cpu>`__ (for CPU tests) or
+`Docker.test.gpu <https://github.com/khorovod-ai/khorovod/blob/master/Dockerfile.test.gpu>`__ (for GPU tests).
 
 Individual tests are run on each configuration as defined in
-`gen-pipeline.sh <https://github.com/horovod/horovod/blob/master/.buildkite/gen-pipeline.sh>`__.  Every test
+`gen-pipeline.sh <https://github.com/khorovod-ai/khorovod/blob/master/.buildkite/gen-pipeline.sh>`__.  Every test
 configuration needs to also be defined here in order to be run at test time.  Each time ``run_test`` is called
 a new test artifact will be generated in Buildkite that either succeeds or fails depending on exit code.
 
@@ -147,9 +147,9 @@ implement Broadcast, Allreduce, and Allgather interfaces.  Gradients in Horovod 
 Allreduce operations (with the exception of sparse gradients, which use Allgather).
 
 All data transfer operations are implemented in the
-`horovod/common/ops <https://github.com/horovod/horovod/tree/master/horovod/common/ops>`__ directory.  Implementations
+`horovod/common/ops <https://github.com/khorovod-ai/khorovod/tree/master/horovod/common/ops>`__ directory.  Implementations
 are organized by the collective communication library used to perform the operation (e.g.,
-`mpi_operations.cc <https://github.com/horovod/horovod/blob/master/horovod/common/ops/mpi_operations.cc>`__ for MPI).
+`mpi_operations.cc <https://github.com/khorovod-ai/khorovod/blob/master/horovod/common/ops/mpi_operations.cc>`__ for MPI).
 
 To create a new custom operation, start by defining a new class that inherits from the base operation, in the file
 corresponding to the library you'll use to implement the operation:
@@ -177,7 +177,7 @@ current parameter settings and response metadata.
 
 Once you've written the implementation for your operation, add it to the ``OperationManager`` in the
 ``CreateOperationManager`` function of
-`operations.cc <https://github.com/horovod/horovod/blob/master/horovod/common/operations.cc>`__.  Because more than one
+`operations.cc <https://github.com/khorovod-ai/khorovod/blob/master/horovod/common/operations.cc>`__.  Because more than one
 operation may be *enabled* at a time, but only one will be performed on a given vector of Tensor entries, consider the
 order of your operation in the ``OperationManager`` vector before adding it in.
 
@@ -197,8 +197,8 @@ Adding Compression Algorithms
 Gradient compression is used to reduce the amount of data sent over the network during an Allreduce operation.  Such
 compression algorithms are implemented per framework (TensorFlow, PyTorch, MXNet, etc.) in
 ``horovod/[framework]/compression.py``
-(see: `TensorFlow <https://github.com/horovod/horovod/blob/master/horovod/tensorflow/compression.py>`__,
-`PyTorch <https://github.com/horovod/horovod/blob/master/horovod/torch/compression.py>`__).
+(see: `TensorFlow <https://github.com/khorovod-ai/khorovod/blob/master/horovod/tensorflow/compression.py>`__,
+`PyTorch <https://github.com/khorovod-ai/khorovod/blob/master/horovod/torch/compression.py>`__).
 
 To implement a new compression algorithm, first add a new class inheriting from ``Compressor``:
 
@@ -218,7 +218,7 @@ To implement a new compression algorithm, first add a new class inheriting from 
 The ``compress`` method takes a Tensor gradient and returns it in its compressed form, along with any additional context
 necessary to decompress the tensor back to its original form.  Similarly, ``decompress`` takes in a compressed tensor
 with its context and returns a decompressed tensor.  Compression can be done in pure Python, or in C++ using a custom
-op (e.g., in `mpi_ops.cc <https://github.com/horovod/horovod/blob/master/horovod/tensorflow/mpi_ops.cc>`__ for
+op (e.g., in `mpi_ops.cc <https://github.com/khorovod-ai/khorovod/blob/master/horovod/tensorflow/mpi_ops.cc>`__ for
 TensorFlow).
 
 Once implemented, add your ``Compressor`` subclass to the ``Compressor`` class, which emulates an enumeration API:
@@ -303,7 +303,7 @@ Version Bump
 ~~~~~~~~~~~~
 
 Make a PR that changes ``__version__ in horovod/__init__.py``.  Example:
-`#1352 <https://github.com/horovod/horovod/pull/1352>`_.
+`#1352 <https://github.com/khorovod-ai/khorovod/pull/1352>`_.
 
 
 Tag

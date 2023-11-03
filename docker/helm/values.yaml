@@ -25,13 +25,13 @@ worker:
   number: 3
   podManagementPolicy: Parallel
   image:
-    repository: horovod/horovod
+    repository: khorovod-ai/khorovod
     tag: 0.24.3
     pullPolicy: IfNotPresent
 
 driver:
   image:
-    repository: horovod/horovod
+    repository: khorovod-ai/khorovod
     tag: 0.24.3
     pullPolicy: IfNotPresent
   # args:

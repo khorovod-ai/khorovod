@@ -119,13 +119,13 @@ jobs:
         command=$(cat <<EOF
         # Setup CodeQL tracing
         RUN mkdir -p /home/runner/work/horovod
-        RUN ln -s /horovod /home/runner/work/horovod/horovod
+        RUN ln -s /horovod /home/runner/work/khorovod-ai/khorovod
         RUN mkdir -p /home/runner/work/_temp
-        RUN ${{ env.CODEQL_DIST }}/codeql database init --db-cluster /home/runner/work/_temp/codeql_databases --source-root=/home/runner/work/horovod/horovod --language=cpp --begin-tracing --trace-process-name=Runner.Worker.exe
+        RUN ${{ env.CODEQL_DIST }}/codeql database init --db-cluster /home/runner/work/_temp/codeql_databases --source-root=/home/runner/work/khorovod-ai/khorovod --language=cpp --begin-tracing --trace-process-name=Runner.Worker.exe
 
         # Build Horovod (C++)
         RUN mkdir -p build/temp
-        RUN cd build/temp; source /home/runner/work/_temp/codeql_databases/temp/tracingEnvironment/start-tracing.sh; cmake /home/runner/work/horovod/horovod -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO=/home/runner/work/horovod/horovod/build/temp/lib.linux-x86_64-3.8 -DPYTHON_EXECUTABLE:FILEPATH=/usr/bin/python
+        RUN cd build/temp; source /home/runner/work/_temp/codeql_databases/temp/tracingEnvironment/start-tracing.sh; cmake /home/runner/work/khorovod-ai/khorovod -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO=/home/runner/work/khorovod-ai/khorovod/build/temp/lib.linux-x86_64-3.8 -DPYTHON_EXECUTABLE:FILEPATH=/usr/bin/python
         RUN cd build/temp; source /home/runner/work/_temp/codeql_databases/temp/tracingEnvironment/start-tracing.sh; cmake --build . --config RelWithDebInfo -- VERBOSE=1
         EOF
         )

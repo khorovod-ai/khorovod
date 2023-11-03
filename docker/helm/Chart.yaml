@@ -4,6 +4,6 @@ name: horovod
 version: 1.0.3
 appVersion: 0.24.3
 sources:
-  - https://github.com/horovod/horovod
-  - https://github.com/horovod/horovod/blob/master/docs/docker.rst
+  - https://github.com/khorovod-ai/khorovod
+  - https://github.com/khorovod-ai/khorovod/blob/master/docs/docker.rst
 home: https://horovod.ai

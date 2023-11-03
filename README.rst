@@ -1,93 +1,11 @@
-.. raw:: html
-
-    <p align="center"><img src="https://user-images.githubusercontent.com/16640218/34506318-84d0c06c-efe0-11e7-8831-0425772ed8f2.png" alt="Logo" width="200"/></p>
-    <br/>
-
-Horovod
+Khorovod
 =======
-
-.. raw:: html
-
-   <div align="center">
-
-.. image:: https://badge.fury.io/py/horovod.svg
-   :target: https://badge.fury.io/py/horovod
-   :alt: PyPI Version
-
-.. image:: https://badge.buildkite.com/6f976bc161c69d9960fc00de01b69deb6199b25680a09e5e26.svg?branch=master
-   :target: https://buildkite.com/horovod/horovod
-   :alt: Build Status
-
-.. image:: https://readthedocs.org/projects/horovod/badge/?version=latest
-   :target: https://horovod.readthedocs.io/en/latest/
-   :alt: Documentation Status
-
-.. image:: https://img.shields.io/badge/slack-chat-green.svg?logo=slack
-   :target: https://forms.gle/cPGvty5hp31tGfg79
-   :alt: Slack
-
-.. raw:: html
-
-   </div>
-
-.. raw:: html
-
-   <div align="center">
-
-.. image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
-   :target: https://img.shields.io/badge/License-Apache%202.0-blue.svg
-   :alt: License
-
-.. image:: https://app.fossa.com/api/projects/git%2Bgithub.com%2Fhorovod%2Fhorovod.svg?type=shield
-   :target: https://app.fossa.com/projects/git%2Bgithub.com%2Fhorovod%2Fhorovod?ref=badge_shield
-   :alt: FOSSA Status
-
-.. image:: https://bestpractices.coreinfrastructure.org/projects/2373/badge
-   :target: https://bestpractices.coreinfrastructure.org/projects/2373
-   :alt: CII Best Practices
-
-.. image:: https://pepy.tech/badge/horovod
-   :target: https://pepy.tech/project/horovod
-   :alt: Downloads
-
-.. raw:: html
-
-   </div>
-
-.. inclusion-marker-start-do-not-remove
-
 |
 
 Horovod is a distributed deep learning training framework for TensorFlow, Keras, PyTorch, and Apache MXNet.
 The goal of Horovod is to make distributed deep learning fast and easy to use.
 
 
-.. raw:: html
-
-   <p><img src="https://raw.githubusercontent.com/lfai/artwork/master/lfaidata-assets/lfaidata-project-badge/graduate/color/lfaidata-project-badge-graduate-color.png" alt="LF AI & Data" width="200"/></p>
-
-
-Horovod is hosted by the `LF AI & Data Foundation <https://lfdl.io>`_ (LF AI & Data). If you are a company that is deeply
-committed to using open source technologies in artificial intelligence, machine, and deep learning, and want to support
-the communities of open source projects in these domains, consider joining the LF AI & Data Foundation. For details
-about who's involved and how Horovod plays a role, read the Linux Foundation `announcement <https://lfdl.io/press/2018/12/13/lf-deep-learning-welcomes-horovod-distributed-training-framework-as-newest-project/>`_.
-
-|
-
-.. contents::
-
-|
-
-Documentation
--------------
-
-- `Latest Release <https://horovod.readthedocs.io/en/stable>`_
-- `master <https://horovod.readthedocs.io/en/latest>`_
-
-|
-
-Why Horovod?
-------------
 The primary motivation for this project is to make it easy to take a single-GPU training script and successfully scale
 it to train across many GPUs in parallel. This has two aspects:
 
@@ -400,13 +318,6 @@ one distributed training. Set up ``hvd.process_set`` objects to make use of this
 See `Process Sets <docs/process_set.rst>`__ for detailed instructions.
 
 
-Guides
-------
-1. Run distributed training in Microsoft Azure using `Batch AI and Horovod <https://github.com/Azure/BatchAI/tree/master/recipes/Horovod>`_.
-2. `Distributed model training using Horovod <https://spell.ml/blog/distributed-model-training-using-horovod-XvqEGRUAACgAa5th>`_.
-
-Send us links to any user guides you want to publish on this site
-
 Troubleshooting
 ---------------
 See `Troubleshooting <docs/troubleshooting.rst>`_ and submit a `ticket <https://github.com/horovod/horovod/issues/new>`_
@@ -444,15 +355,3 @@ References
 The Horovod source code was based off the Baidu `tensorflow-allreduce <https://github.com/baidu-research/tensorflow-allreduce>`_
 repository written by Andrew Gibiansky and Joel Hestness. Their original work is described in the article
 `Bringing HPC Techniques to Deep Learning <http://andrew.gibiansky.com/blog/machine-learning/baidu-allreduce/>`_.
-
-Getting Involved
-----------------
-- `Community Slack <https://forms.gle/cPGvty5hp31tGfg79>`_ for collaboration and discussion
-- `Horovod Announce <https://lists.lfai.foundation/g/horovod-announce>`_ for updates on the project
-- `Horovod Technical-Discuss <https://lists.lfai.foundation/g/horovod-technical-discuss>`_ for public discussion
-- `Horovod Security <https://lists.lfai.foundation/g/horovod-security>`_ to report security vulnerabilities
-
-
-.. inclusion-marker-end-do-not-remove
-   Place contents above here if they should also appear in read-the-docs.
-   Contents below are already part of the read-the-docs table of contents.

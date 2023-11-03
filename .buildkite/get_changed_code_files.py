@@ -24,7 +24,7 @@ non_code_file_patterns = [
 
 def get_changed_files(base, head):
     response = requests.get(
-        'https://api.github.com/repos/horovod/horovod/compare/{base}...{head}'.format(
+        'https://api.github.com/repos/khorovod-ai/khorovod/compare/{base}...{head}'.format(
             base=base, head=head
         )
     )

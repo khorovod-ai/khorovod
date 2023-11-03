@@ -15,7 +15,7 @@ achieves 90% scaling efficiency for both Inception V3 and ResNet-101, and 68% sc
 
 To reproduce the benchmarks:
 
-1. Install Horovod using the instructions provided on the `Horovod on GPU <https://github.com/horovod/horovod/blob/master/docs/gpus.rst>`__ page.
+1. Install Horovod using the instructions provided on the `Horovod on GPU <https://github.com/khorovod-ai/khorovod/blob/master/docs/gpus.rst>`__ page.
 
 2. Clone `https://github.com/tensorflow/benchmarks <https://github.com/tensorflow/benchmarks>`__
 
@@ -67,9 +67,9 @@ Now, simply add ``--data_dir /path/to/imagenet/tfrecords --data_name imagenet --
 Horovod synthetic benchmarks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Horovod also comes with out-of-the-box benchmarking support for
-`TensorFlow v1 <https://github.com/horovod/horovod/blob/master/examples/tensorflow/tensorflow_synthetic_benchmark.py>`__,
-`TensorFlow v2 <https://github.com/horovod/horovod/blob/master/examples/tensorflow2/tensorflow2_synthetic_benchmark.py>`__, and
-`PyTorch <https://github.com/horovod/horovod/blob/master/examples/pytorch/pytorch_synthetic_benchmark.py>`__.
+`TensorFlow v1 <https://github.com/khorovod-ai/khorovod/blob/master/examples/tensorflow/tensorflow_synthetic_benchmark.py>`__,
+`TensorFlow v2 <https://github.com/khorovod-ai/khorovod/blob/master/examples/tensorflow2/tensorflow2_synthetic_benchmark.py>`__, and
+`PyTorch <https://github.com/khorovod-ai/khorovod/blob/master/examples/pytorch/pytorch_synthetic_benchmark.py>`__.
 
 These benchmarks allow you to measure Horovod's performance and scalability in your environment, as well as try advanced
 Horovod features like gradient compression:

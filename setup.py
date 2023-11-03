@@ -210,7 +210,7 @@ def get_package_version():
     return __version__ + "+" + os.environ['HOROVOD_LOCAL_VERSION'] if 'HOROVOD_LOCAL_VERSION' in os.environ else __version__
 
 
-setup(name='horovod',
+setup(name='khorovod',
       version=get_package_version(),
       packages=find_packages(),
       description='Distributed training framework for TensorFlow, Keras, PyTorch, and Apache MXNet.',
@@ -219,7 +219,7 @@ setup(name='horovod',
       long_description=textwrap.dedent('''\
           Horovod is a distributed training framework for TensorFlow, Keras, PyTorch, and Apache MXNet.
           The goal of Horovod is to make distributed Deep Learning fast and easy to use.'''),
-      url='https://github.com/horovod/horovod',
+      url='https://github.com/khorovod-ai/khorovod',
       keywords=['deep learning', 'tensorflow', 'keras', 'pytorch', 'mxnet', 'spark', 'AI'],
       classifiers=[
           'License :: OSI Approved :: Apache Software License',

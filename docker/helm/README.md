@@ -10,11 +10,11 @@ This chart bootstraps Horovod which is a Distributed TensorFlow Framework on a K
 
 ## Build Docker Image
 
-You can download [official Horovod Dockerfile](https://github.com/horovod/horovod/blob/master/docker/horovod/Dockerfile), then modify it according to your requirement, e.g. select a different CUDA, TensorFlow or Python version.
+You can download [official Horovod Dockerfile](https://github.com/khorovod-ai/khorovod/blob/master/docker/horovod/Dockerfile), then modify it according to your requirement, e.g. select a different CUDA, TensorFlow or Python version.
 
 ```
 # mkdir horovod-docker
-# wget -O horovod-docker/Dockerfile https://raw.githubusercontent.com/horovod/horovod/master/docker/horovod/Dockerfile
+# wget -O horovod-docker/Dockerfile https://raw.githubusercontent.com/khorovod-ai/khorovod/master/docker/horovod/Dockerfile
 # docker build -t horovod:latest horovod-docker
 ```
 
@@ -51,11 +51,11 @@ resources:
 worker:
   number: 2
   image:
-    repository: horovod/horovod
+    repository: khorovod-ai/khorovod
     tag: 0.24.3
 driver:
   image:
-    repository: horovod/horovod
+    repository: khorovod-ai/khorovod
     tag: 0.24.3
   args:
     - "mpirun -np 3 --hostfile /horovod/generated/hostfile --mca orte_keep_fqdn_hostnames t --allow-run-as-root --display-map --tag-output --timestamp-output sh -c 'python /examples/tensorflow_mnist.py'"
@@ -88,11 +88,11 @@ resources:
 worker:
   number: 2
   image:
-    repository: horovod/horovod
+    repository: khorovod-ai/khorovod
     tag: 0.24.3
 driver:
   image:
-    repository: horovod/horovod
+    repository: khorovod-ai/khorovod
     tag: 0.24.3
   args:
     - "mpirun -np 3 --hostfile /horovod/generated/hostfile --mca orte_keep_fqdn_hostnames t --allow-run-as-root --display-map --tag-output --timestamp-output sh -c 'python /examples/tensorflow_mnist.py'"
@@ -146,12 +146,12 @@ chart and their default values.
 | `ssh.port` | The ssh port | `22` |
 | `ssh.useSecrets` | Determine if using the secrets for ssh | `false` |
 | `worker.number`|  The worker's number | `5` |
-| `worker.image.repository` | horovod worker image | `horovod/horovod` |
+| `worker.image.repository` | horovod worker image | `khorovod-ai/khorovod` |
 | `worker.image.pullPolicy` | `pullPolicy` for the worker | `IfNotPresent` |
 | `worker.image.tag` | `tag` for the worker | `0.24.3` |
 | `resources`| pod resource requests & limits| `{}`|
 | `worker.env` | worker's environment variables | `{}` |
-| `driver.image.repository` | horovod driver image | `horovod/horovod` |
+| `driver.image.repository` | horovod driver image | `khorovod-ai/khorovod` |
 | `driver.image.tag` | `tag` for the driver | `0.24.3` |
 | `driver.image.pullPolicy` | image pullPolicy for the driver image| `IfNotPresent` |
 | `driver.args` | driver's args | `{}` |
