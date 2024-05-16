@@ -75,15 +75,7 @@ list(APPEND PYTORCH_LINKER_LIBS ${Pytorch_LIBRARIES})
 parse_version(${Pytorch_VERSION} VERSION_DEC)
 add_definitions(-DPYTORCH_VERSION=${VERSION_DEC} -DTORCH_API_INCLUDE_EXTENSION_H=1)
 set(Pytorch_CXX11 ${Pytorch_CXX11} PARENT_SCOPE)
-<<<<<<< HEAD
 set(Pytorch_CXX17 ${Pytorch_CXX17} PARENT_SCOPE)
-=======
-if (Pytorch_VERSION VERSION_GREATER_EQUAL "2.0.0")
-    set(CMAKE_CXX_STANDARD 17)
-elseif(Pytorch_VERSION VERSION_GREATER_EQUAL "1.5.0")
-    set(CMAKE_CXX_STANDARD 14)
-endif()
->>>>>>> pr-3991
 
 # PyTorch SOURCES
 # Later versions of PyTorch that use ROCm's hipify step will rename files.
